@@ -6,18 +6,18 @@ import './App.css';
 const socket = io.connect('http://localhost:4000');
 
 function App() {
-  const [state, setState] = useState({ message: '', name: '' });
+  const [state, setState] = useState({ message: '', user: '' });
   const [chat, setChat] = useState([]);
 
   useEffect(() => {
-    socket.on('message', ({ name, message }) => {
-      setChat([...chat, { name, message }]);
+    socket.on('messageSent', ({ chat }) => {
+      setChat(chat);
     });
   }, [state]);
 
   useEffect(() => {
-    socket.on('');
-  });
+    socket.on('join', ({ chat }) => setChat(chat));
+  }, []);
 
   const onTextChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -25,16 +25,16 @@ function App() {
 
   const onMessageSubmit = (e) => {
     e.preventDefault();
-    const { name, message } = state;
-    socket.emit('message', { name, message });
-    setState({ message: '', name });
+    const { user, message } = state;
+    socket.emit('messageSent', { user, message });
+    setState({ message: '', user });
   };
 
   const renderChat = () => {
-    return chat.map(({ name, message }, index) => (
+    return chat.map(({ sender, message }, index) => (
       <div key={index}>
         <h3>
-          {name}: <span>{message}</span>
+          {sender}: <span>{message}</span>
         </h3>
       </div>
     ));
@@ -43,12 +43,12 @@ function App() {
   return (
     <div className='card'>
       <form onSubmit={onMessageSubmit}>
-        <h1>Messanger</h1>
+        <h1>Messenger</h1>
         <div className='name-field'>
           <TextField
-            name='name'
+            name='user'
             onChange={(e) => onTextChange(e)}
-            value={state.name}
+            value={state.user}
             label='Name'
           />
         </div>
@@ -60,6 +60,7 @@ function App() {
             id='outlined-multiline-static'
             variant='outlined'
             label='Message'
+            required
           />
         </div>
         <button>Send Message</button>
