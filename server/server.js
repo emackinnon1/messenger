@@ -19,7 +19,12 @@ const findOrCreateUser = async (userName) => {
 };
 
 const returnChatHistory = async () => {
-  return await Message.fetchAll({ require: false });
+  const history = await (await Message.fetchAll({ require: false })).serialize();
+  return history
+    .filter((msg) => {
+      return moment().subtract(30, 'd').isBefore(msg.sent);
+    })
+    .splice(0, 100);
 };
 
 io.on('connection', async (socket) => {
@@ -41,12 +46,10 @@ io.on('connection', async (socket) => {
       withRelated: ['messages'],
     });
 
-    const thirtyDaysAgo = moment().subtract(30, 'd');
-
     const results = user
       .related('messages')
       .filter((msg) => {
-        return thirtyDaysAgo.isBefore(msg.sent);
+        return moment().subtract(30, 'd').isBefore(msg.sent);
       })
       .splice(0, 100);
 

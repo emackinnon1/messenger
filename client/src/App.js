@@ -62,13 +62,17 @@ function App() {
     <div className='app'>
       <div className='forms'>
         <form className='message-form' onSubmit={onMessageSubmit}>
-          <h1>Messenger</h1>
+          <h1>King Midas' Messenger</h1>
+          <p>
+            Send things like your SSN, bank account info or credit card number over our super secure
+            messenger we are definitely not recording every key stroke.
+          </p>
           <div className='name-field'>
             <TextField
               name='user'
               onChange={(e) => onTextChange(e)}
               value={state.user}
-              label='Name'
+              label='Username'
               required
             />
           </div>
@@ -92,10 +96,10 @@ function App() {
             value={state.search}
             id='outlined-multiline-static'
             variant='outlined'
-            label='Search'
+            label='Search by sender'
             required
           />
-          <button className='search-btn'>Search by Sender</button>
+          <button className='search-btn'>Search</button>
         </form>
         <button onClick={() => setSearchResults([])} className='clear-search-btn'>
           Clear Search
