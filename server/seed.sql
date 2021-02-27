@@ -17,7 +17,7 @@ CREATE TABLE `messages` (
   `user_id` int NOT NULL,
   `sender` varchar(50) NOT NULL,
   `message` varchar(5000) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `sent` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   CONSTRAINT `id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 );
