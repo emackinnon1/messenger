@@ -15,10 +15,16 @@ const bookshelf = require('bookshelf')(knex);
 const Message = bookshelf.model('Message', {
   tableName: 'messages',
   currentTimestamp: () => bookshelf.knex.fn.now(),
+  user() {
+    return this.hasOne(model.User);
+  },
 });
 
 const User = bookshelf.model('User', {
   tableName: 'users',
+  messages() {
+    return this.hasMany(model.Message);
+  },
 });
 
 module.exports = { Message, User };
