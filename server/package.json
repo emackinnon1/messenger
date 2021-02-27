@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon node server.js",
-    "db:create": "mysql -u root -p -e 'CREATE DATABASE IF NOT EXISTS GuildedChat; CREATE USER IF NOT EXISTS chat_admin@127.0.0.1 IDENTIFIED WITH mysql_native_password BY \"password\"; GRANT ALL PRIVILEGES ON GuildedChat.* TO chat_admin@127.0.0.1; FLUSH PRIVILEGES;'"
+    "db:create": "mysql -u root -p -e 'CREATE DATABASE IF NOT EXISTS GuildedChat; CREATE USER IF NOT EXISTS chat_admin@127.0.0.1 IDENTIFIED WITH mysql_native_password BY \"password\"; GRANT ALL PRIVILEGES ON GuildedChat.* TO chat_admin@127.0.0.1; FLUSH PRIVILEGES; source ./seed.sql;'"
   },
   "keywords": [],
   "author": "",

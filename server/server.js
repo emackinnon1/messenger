@@ -5,12 +5,13 @@ const io = require('socket.io')(http, {
     origin: 'http://localhost:3000',
   },
 });
-
-let chat = [];
+const { Message, User } = require('./bookshelf');
 
 io.on('connection', (socket) => {
-  socket.on('message', ({ name, message }) => {
-    io.emit('message', { name, message });
+  socket.on('message', async ({ user, message }) => {
+    // const user = await new User({ name }).save();
+    // const msg = await new Message({ message, user_id: user.get('id') }).save();
+    io.emit('message', { user, message });
   });
 });
 
