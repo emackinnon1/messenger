@@ -1,23 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import TextField from '@material-ui/core/TextField';
+import moment from 'moment';
 import './App.css';
 
 const socket = io.connect('http://localhost:4000');
 
 function App() {
-  const [state, setState] = useState({ message: '', user: '' });
+  const [state, setState] = useState({ message: '', user: '', search: '' });
   const [chat, setChat] = useState([]);
-
-  useEffect(() => {
-    socket.on('messageSent', ({ chat }) => {
-      setChat(chat);
-    });
-  }, [state]);
-
-  useEffect(() => {
-    socket.on('join', ({ chat }) => setChat(chat));
-  }, []);
+  const messageRef = useRef(null);
 
   const onTextChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -31,8 +23,9 @@ function App() {
   };
 
   const renderChat = () => {
-    return chat.map(({ sender, message }, index) => (
+    return chat.map(({ sender, message, sent }, index) => (
       <div key={index}>
+        <p className='timestamp'>{moment(sent).format('MMM Do YYYY, h:mm:ss a')}</p>
         <h3>
           {sender}: <span>{message}</span>
         </h3>
@@ -40,8 +33,22 @@ function App() {
     ));
   };
 
+  useEffect(() => {
+    socket.on('messageSent', ({ chat }) => {
+      setChat(chat);
+    });
+  }, [state]);
+
+  useEffect(() => {
+    socket.on('join', ({ chat }) => setChat(chat));
+  }, []);
+
+  useEffect(() => {
+    messageRef.current.scrollIntoView(false);
+  }, [chat]);
+
   return (
-    <div className='card'>
+    <div className='app'>
       <form onSubmit={onMessageSubmit}>
         <h1>Messenger</h1>
         <div className='name-field'>
@@ -63,10 +70,21 @@ function App() {
             required
           />
         </div>
-        <button>Send Message</button>
+        <button className='send-message'>Send Message</button>
+        <div className='search'>
+          <TextField
+            name='search'
+            onChange={(e) => onTextChange(e)}
+            value={state.search}
+            id='outlined-multiline-static'
+            variant='outlined'
+            label='Search by sender'
+            size='small'
+          />
+          <button className='search-msgs'>Search</button>
+        </div>
       </form>
-      <div className='render-chat'>
-        <h1>Chat Log</h1>
+      <div className='render-chat' ref={messageRef}>
         {renderChat()}
       </div>
     </div>

@@ -9,12 +9,12 @@
   display: grid;
   grid-template-columns: 1fr 2fr;
   margin: 30px;
-  min-height: 80vh;
+  max-height: 80vh;
 }
 
 form {
   max-width: 350px;
-  max-height: 70%;
+  max-height: 100%;
   border-radius: 5px;
   padding: 20px;
   box-shadow: 0px 3px 24px -8px#ad974f;
@@ -24,8 +24,25 @@ form {
   margin-bottom: 40px;
 }
 
-button {
-  margin-top: 20px;
+.send-message {
+  margin: 20px 0 150px;
+  padding: 10px;
+  background: transparent;
+  border-radius: 5px;
+  color: #eaeaea;
+  background: #ad974f;
+}
+
+.search {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.search-msgs {
   padding: 10px;
   background: transparent;
   border-radius: 5px;
@@ -35,12 +52,12 @@ button {
 
 .render-chat {
   width: 90%;
-  height: 90%;
+  height: 70vh;
   border-radius: 5px;
   padding: 20px;
   background: #ad974f;
   box-shadow: 0px 3px 24px -8px #ad974f;
-  overflow: auto;
+  overflow: scroll;
 }
 
 h3 {
