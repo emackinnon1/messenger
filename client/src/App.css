@@ -1,14 +1,23 @@
-.card {
+/* 
+#ad974f;
+#8E793E;
+#231F20;
+#EAEAEA;
+*/
+
+.app {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
   margin: 30px;
-  min-height: 30rem;
+  min-height: 80vh;
 }
+
 form {
   max-width: 350px;
+  max-height: 70%;
   border-radius: 5px;
   padding: 20px;
-  box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 3px 24px -8px#ad974f;
 }
 
 .name-field {
@@ -20,19 +29,30 @@ button {
   padding: 10px;
   background: transparent;
   border-radius: 5px;
+  color: #eaeaea;
+  background: #ad974f;
 }
 
 .render-chat {
-  max-width: 350px;
+  width: 90%;
+  height: 90%;
   border-radius: 5px;
   padding: 20px;
-  box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
+  background: #ad974f;
+  box-shadow: 0px 3px 24px -8px #ad974f;
+  overflow: auto;
 }
 
 h3 {
-  color: #2f72da;
+  color: #231f20;
+  margin-top: 0;
 }
 
 span {
-  color: black;
+  color: #eaeaea;
+}
+
+.timestamp {
+  font-size: 10px;
+  margin: 0;
 }
