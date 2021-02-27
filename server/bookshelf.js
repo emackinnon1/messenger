@@ -1,4 +1,4 @@
-// Setting up the database connection
+// Set up the database connection
 const knex = require('knex')({
   client: 'mysql',
   connection: {
@@ -11,19 +11,19 @@ const knex = require('knex')({
 });
 const bookshelf = require('bookshelf')(knex);
 
-// Defining models
+// Define models
 const Message = bookshelf.model('Message', {
   tableName: 'messages',
   currentTimestamp: () => bookshelf.knex.fn.now(),
   user() {
-    return this.hasOne(model.User);
+    return this.hasOne(User);
   },
 });
 
 const User = bookshelf.model('User', {
   tableName: 'users',
   messages() {
-    return this.hasMany(model.Message);
+    return this.hasMany(Message);
   },
 });
 

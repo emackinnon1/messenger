@@ -8,6 +8,7 @@ const socket = io.connect('http://localhost:4000');
 
 function App() {
   const [state, setState] = useState({ message: '', user: '', search: '' });
+  const [searchResults, setSearchResults] = useState([]);
   const [chat, setChat] = useState([]);
   const messageRef = useRef(null);
 
@@ -22,8 +23,14 @@ function App() {
     setState({ message: '', user });
   };
 
-  const renderChat = () => {
-    return chat.map(({ sender, message, sent }, index) => (
+  const searchMessages = (e) => {
+    e.preventDefault();
+    const { search } = state;
+    socket.emit('search', { userToSearch: search });
+  };
+
+  const renderMessages = (messages) => {
+    return messages.map(({ sender, message, sent }, index) => (
       <div key={index}>
         <p className='timestamp'>{moment(sent).format('MMM Do YYYY, h:mm:ss a')}</p>
         <h3>
@@ -44,48 +51,59 @@ function App() {
   }, []);
 
   useEffect(() => {
+    socket.on('search', ({ results }) => setSearchResults(results));
+  });
+
+  useEffect(() => {
     messageRef.current.scrollIntoView(false);
   }, [chat]);
 
   return (
     <div className='app'>
-      <form onSubmit={onMessageSubmit}>
-        <h1>Messenger</h1>
-        <div className='name-field'>
-          <TextField
-            name='user'
-            onChange={(e) => onTextChange(e)}
-            value={state.user}
-            label='Name'
-          />
-        </div>
-        <div>
-          <TextField
-            name='message'
-            onChange={(e) => onTextChange(e)}
-            value={state.message}
-            id='outlined-multiline-static'
-            variant='outlined'
-            label='Message'
-            required
-          />
-        </div>
-        <button className='send-message'>Send Message</button>
-        <div className='search'>
+      <div className='forms'>
+        <form className='message-form' onSubmit={onMessageSubmit}>
+          <h1>Messenger</h1>
+          <div className='name-field'>
+            <TextField
+              name='user'
+              onChange={(e) => onTextChange(e)}
+              value={state.user}
+              label='Name'
+              required
+            />
+          </div>
+          <div>
+            <TextField
+              name='message'
+              onChange={(e) => onTextChange(e)}
+              value={state.message}
+              id='outlined-multiline-static'
+              variant='outlined'
+              label='Message'
+              required
+            />
+          </div>
+          <button className='send-message'>Send Message</button>
+        </form>
+        <form className='search' onSubmit={searchMessages}>
           <TextField
             name='search'
             onChange={(e) => onTextChange(e)}
             value={state.search}
             id='outlined-multiline-static'
             variant='outlined'
-            label='Search by sender'
-            size='small'
+            label='Search'
+            required
           />
-          <button className='search-msgs'>Search</button>
-        </div>
-      </form>
+          <button className='search-btn'>Search by Sender</button>
+        </form>
+        <button onClick={() => setSearchResults([])} className='clear-search-btn'>
+          Clear Search
+        </button>
+      </div>
+
       <div className='render-chat' ref={messageRef}>
-        {renderChat()}
+        {searchResults.length ? renderMessages(searchResults) : renderMessages(chat)}
       </div>
     </div>
   );
