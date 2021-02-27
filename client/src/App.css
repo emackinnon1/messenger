@@ -1,18 +1,16 @@
-/* 
-#ad974f;
-#8E793E;
-#231F20;
-#EAEAEA;
-*/
-
 .app {
-  display: grid;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
   grid-template-columns: 1fr 2fr;
   margin: 30px;
   max-height: 80vh;
 }
 
 .forms {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   max-width: 350px;
   max-height: 100%;
   border-radius: 5px;
@@ -25,7 +23,7 @@
 }
 
 .send-message {
-  margin: 20px 0 150px;
+  margin: 20px 0 50px;
   padding: 10px;
   background: transparent;
   border-radius: 5px;
@@ -47,6 +45,7 @@
   color: #eaeaea;
   background: #ad974f;
   margin: 5px;
+  width: 130px;
 }
 
 .clear-search-btn {
@@ -56,9 +55,11 @@
   color: #eaeaea;
   background: #ad974f;
   margin: 5px;
+  width: 130px;
 }
 
 .render-chat {
+  margin: 20px;
   width: 90%;
   height: 70vh;
   border-radius: 5px;
