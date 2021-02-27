@@ -22,16 +22,13 @@ const returnChatHistory = async () => {
 };
 
 io.on('connection', async (socket) => {
-  const history = await returnChatHistory();
-  socket.emit('join', { chat: history });
+  socket.emit('join', { chat: await returnChatHistory() });
 
   socket.on('messageSent', async ({ user, message }) => {
     const sender = await findOrCreateUser(user);
-    console.log(sender.get('id'));
-
     await new Message({ message, user_id: sender.get('id'), sender: user }).save();
 
-    io.emit('messageSent', { chat: history });
+    io.emit('messageSent', { chat: await returnChatHistory() });
   });
 });
 
