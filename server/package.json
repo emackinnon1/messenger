@@ -1,0 +1,21 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon node server.js",
+    "db:create": "mysql -u root -p -e 'CREATE DATABASE IF NOT EXISTS GuildedChat; CREATE USER IF NOT EXISTS chat_admin@127.0.0.1 IDENTIFIED WITH mysql_native_password BY \"password\"; GRANT ALL PRIVILEGES ON GuildedChat.* TO chat_admin@127.0.0.1; FLUSH PRIVILEGES;'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bookshelf": "^1.2.0",
+    "express": "^4.17.1",
+    "knex": "^0.21.18",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.7",
+    "socket.io": "^3.1.2"
+  }
+}
