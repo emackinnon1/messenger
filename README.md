@@ -1,6 +1,6 @@
 # Guilded Messenger
 
-[!alt-text](https://github.com/emackinnon1/messenger/blob/main/guilded-chat.gif)
+![alt-text](https://github.com/emackinnon1/messenger/blob/main/guilded-chat.gif)
 
 ## Overview
 
