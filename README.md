@@ -1,5 +1,7 @@
 # Guilded Messenger
 
+[!alt-text](https://github.com/emackinnon1/messenger/gilded-chat.gif)
+
 ## Overview
 
 This is a small full stack application built in React with Hooks using a backend in Node.js with an Express.js framework. The MySQL database uses Bookshelf.js for the ORM, which runs on Knex.js under the hood. NPM was used as the package manager. For communication between the frontend and backend, `socket.io-client` and `socket.io` were used, respectively. Various other packages such as `moment.js` and `material-ui` were utilized as well.
