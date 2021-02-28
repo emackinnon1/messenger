@@ -61,7 +61,6 @@ function App() {
   socket.on('search', ({ results }) => setSearchResults(results));
   socket.on('noResult', () => {
     setNoResult(true);
-    console.log('hiii');
   });
 
   return (
