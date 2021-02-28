@@ -4,7 +4,7 @@
   justify-content: space-around;
   grid-template-columns: 1fr 2fr;
   margin: 30px;
-  max-height: 80vh;
+  max-height: 90vh;
 }
 
 .forms {

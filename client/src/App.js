@@ -7,11 +7,18 @@ import './App.css';
 const socket = io.connect('http://localhost:4000');
 
 function App() {
+  // state
   const [state, setState] = useState({ message: '', user: '', search: '' });
   const [searchResults, setSearchResults] = useState([]);
   const [chat, setChat] = useState([]);
+  const [noResult, setNoResult] = useState(false);
   const messageRef = useRef(null);
 
+  useEffect(() => {
+    messageRef.current.scrollIntoView(false);
+  }, [chat]);
+
+  // methods
   const onTextChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
@@ -40,28 +47,27 @@ function App() {
     ));
   };
 
-  useEffect(() => {
-    socket.on('messageSent', ({ chat }) => {
-      setChat(chat);
-    });
-  }, [state]);
+  const clear = () => {
+    setSearchResults([]);
+    setState({ ...state, search: '' });
+    setNoResult(false);
+  };
 
-  useEffect(() => {
-    socket.on('join', ({ chat }) => setChat(chat));
-  }, []);
-
-  useEffect(() => {
-    socket.on('search', ({ results }) => setSearchResults(results));
+  // socket events
+  socket.on('messageSent', ({ chat }) => {
+    setChat(chat);
   });
-
-  useEffect(() => {
-    messageRef.current.scrollIntoView(false);
-  }, [chat]);
+  socket.on('join', ({ chat }) => setChat(chat));
+  socket.on('search', ({ results }) => setSearchResults(results));
+  socket.on('noResult', () => {
+    setNoResult(true);
+    console.log('hiii');
+  });
 
   return (
     <div className='app'>
       <div className='forms'>
-        <form className='message-form' onSubmit={onMessageSubmit}>
+        <form className='message-form' onSubmit={onMessageSubmit} onFocus={() => clear()}>
           <h1>King Midas' Messenger</h1>
           <p>
             Send things like your SSN, bank account info or credit card number over our super secure
@@ -101,9 +107,10 @@ function App() {
           />
           <button className='search-btn'>Search</button>
         </form>
-        <button onClick={() => setSearchResults([])} className='clear-search-btn'>
+        <button onClick={() => clear()} className='clear-search-btn'>
           Clear Search
         </button>
+        {noResult && <p>No results for this user. Please make sure spelling is correct.</p>}
       </div>
 
       <div className='render-chat' ref={messageRef}>
